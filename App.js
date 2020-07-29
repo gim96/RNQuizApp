@@ -7,6 +7,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 import Quiz from "./components/Quiz";
+import Test from "./components/Test";
 
 const Stack = createStackNavigator();
 
@@ -39,6 +40,11 @@ function MyStack() {
         name="Quiz"
         component={Quiz}
         options={({ title: "Quiz" }, { headerLeft: null })}
+      />
+      <Stack.Screen
+        name="Test"
+        component={Test}
+        options={({ title: "Test" }, { headerLeft: null })}
       />
     </Stack.Navigator>
   );

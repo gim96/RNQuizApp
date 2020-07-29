@@ -13,84 +13,25 @@ export default class Dashboard extends Component {
       displayName: firebase.auth().currentUser.displayName,
       uid: firebase.auth().currentUser.uid,
 
+      person: [],
       count: 0,
       score: 0,
       name: "Next",
       checked: 0,
-
-      myquiz: [
-        {
-          question: "1. I bought a beautiful dress at the mall.",
-          ans1: "preposition",
-          ans2: "adjective",
-          ans3: "noun",
-          ans: "2",
-        },
-        {
-          question: "2. What did she ask you to do?",
-          ans1: "conjunction",
-          ans2: "preposition",
-          ans3: "pronoun",
-          ans: "3",
-        },
-        {
-          question: "3. I left my shoes under the kitchen table.",
-          ans1: "adjective",
-          ans2: "preposition",
-          ans3: "pronoun",
-          ans: "2",
-        },
-        {
-          question: "4. If we finish our work quickly we can go to the movies",
-          ans1: "adverb",
-          ans2: "conjunction",
-          ans3: "verb",
-          ans: "1",
-        },
-        {
-          question: "5. On Saturdays I work from nine to five.",
-          ans1: "verb",
-          ans2: "preposition",
-          ans3: "adverb",
-          ans: "1",
-        },
-        {
-          question: "6. I want to go to a university in the United States.",
-          ans1: "adjective",
-          ans2: "preposition",
-          ans3: "noun",
-          ans: "3",
-        },
-        {
-          question: "7. I'm sure I've met your girlfriend before.",
-          ans1: "verb",
-          ans2: "preposition",
-          ans3: "interjection",
-          ans: "1",
-        },
-        {
-          question: "8. Well, I don't think I'll be home before",
-          ans1: "interjection",
-          ans2: "preposition",
-          ans3: "pronoun",
-          ans: "1",
-        },
-        {
-          question: "9. Andy knocked on the door but nobody answered.",
-          ans1: "adverb",
-          ans2: "adjective",
-          ans3: "conjunction",
-          ans: "3",
-        },
-        {
-          question: "10. After lunch let's go out for a coffee.",
-          ans1: "pronoun",
-          ans2: "preposition",
-          ans3: "verb",
-          ans: "2",
-        },
-      ],
+      isLoading: true,
     };
+  }
+
+  async componentDidMount() {
+    const db = firebase.firestore();
+
+    db.collection("tasks")
+      .get()
+      .then((querySnapshot) => {
+        const data = querySnapshot.docs.map((doc) => doc.data());
+
+        this.setState({ person: data, isLoading: false });
+      });
   }
 
   signOut = () => {
@@ -106,7 +47,7 @@ export default class Dashboard extends Component {
   quizCount = () => {
     if (this.state.checked != 0) {
       if (this.state.count < 9) {
-        if (this.state.checked == this.state.myquiz[this.state.count].ans) {
+        if (this.state.checked == this.state.person[this.state.count].ans) {
           this.setState({ score: this.state.score + 1 });
         }
         if (this.state.count == 8) {
@@ -134,6 +75,9 @@ export default class Dashboard extends Component {
   };
 
   render() {
+    if (this.state.isLoading == true) {
+      return <Text>Loading........</Text>;
+    }
     return (
       <View style={styles.container}>
         <View style={{ flexDirection: "row" }}>
@@ -151,7 +95,7 @@ export default class Dashboard extends Component {
         <Text></Text>
         <TouchableOpacity style={styles.ansButton}>
           <Text style={styles.txtquiz}>
-            {this.state.myquiz[this.state.count].question}
+            {this.state.person[this.state.count].question}
           </Text>
         </TouchableOpacity>
 
@@ -166,7 +110,7 @@ export default class Dashboard extends Component {
             onPress={() => this.setState({ checked: 1 })}
           />
           <Text style={styles.txtAns}>
-            {this.state.myquiz[this.state.count].ans1}
+            {this.state.person[this.state.count].ans1}
           </Text>
         </TouchableOpacity>
 
@@ -180,7 +124,7 @@ export default class Dashboard extends Component {
             onPress={() => this.setState({ checked: 2 })}
           />
           <Text style={styles.txtAns}>
-            {this.state.myquiz[this.state.count].ans2}
+            {this.state.person[this.state.count].ans2}
           </Text>
         </TouchableOpacity>
 
@@ -194,7 +138,7 @@ export default class Dashboard extends Component {
             onPress={() => this.setState({ checked: 3 })}
           />
           <Text style={styles.txtAns}>
-            {this.state.myquiz[this.state.count].ans3}
+            {this.state.person[this.state.count].ans3}
           </Text>
         </TouchableOpacity>
 
