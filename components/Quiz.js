@@ -1,8 +1,6 @@
-// components/dashboard.js
-
 import React, { Component } from "react";
 import { StyleSheet, View, Text, Button, TouchableOpacity } from "react-native";
-import { RadioButton, DataTable } from "react-native-paper";
+import { RadioButton } from "react-native-paper";
 import firebase from "./firebase";
 
 export default class Dashboard extends Component {
@@ -95,6 +93,7 @@ export default class Dashboard extends Component {
         <Text></Text>
         <TouchableOpacity style={styles.ansButton}>
           <Text style={styles.txtquiz}>
+            {this.state.count + 1} .
             {this.state.person[this.state.count].question}
           </Text>
         </TouchableOpacity>
@@ -110,7 +109,7 @@ export default class Dashboard extends Component {
             onPress={() => this.setState({ checked: 1 })}
           />
           <Text style={styles.txtAns}>
-            {this.state.person[this.state.count].ans1}
+            {this.state.person[this.state.count].answer_1}
           </Text>
         </TouchableOpacity>
 
@@ -124,7 +123,7 @@ export default class Dashboard extends Component {
             onPress={() => this.setState({ checked: 2 })}
           />
           <Text style={styles.txtAns}>
-            {this.state.person[this.state.count].ans2}
+            {this.state.person[this.state.count].answer_2}
           </Text>
         </TouchableOpacity>
 
@@ -138,7 +137,7 @@ export default class Dashboard extends Component {
             onPress={() => this.setState({ checked: 3 })}
           />
           <Text style={styles.txtAns}>
-            {this.state.person[this.state.count].ans3}
+            {this.state.person[this.state.count].answer_3}
           </Text>
         </TouchableOpacity>
 
